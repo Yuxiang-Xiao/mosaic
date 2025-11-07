@@ -2,63 +2,72 @@
 
 ## Successfully Implemented
 
-This PR successfully packages the Mosaic React application as a desktop executable using Tauri.
+This PR successfully packages the Mosaic React application as a desktop executable using Electron.
 
 ## Build Results
 
-The following artifacts are generated when running `npm run tauri:build`:
+The following artifacts are generated when running `npm run electron:build`:
 
-### Linux (Built on Ubuntu 24.04)
-- **Debian Package**: `Mosaic_0.0.0_amd64.deb` (2.9 MB)
-- **RPM Package**: `Mosaic-0.0.0-1.x86_64.rpm` (2.9 MB)
-- **Standalone Executable**: `mosaic` (9.1 MB)
+### Windows
+- **NSIS Installer**: `Mosaic Setup X.X.X.exe` (installer)
+- **Portable Executable**: `Mosaic X.X.X.exe` (standalone)
 
-### Cross-Platform Support
-When built on the respective platforms, Tauri will also generate:
-- **macOS**: `.dmg` and `.app` bundle
-- **Windows**: `.exe` installer and `.msi` package
+### macOS
+- **DMG Installer**: `Mosaic-X.X.X.dmg`
+- **ZIP Archive**: `Mosaic-X.X.X-mac.zip`
+
+### Linux
+- **AppImage**: `Mosaic-X.X.X.AppImage` (universal, no installation required)
+- **Debian Package**: `Mosaic_X.X.X_amd64.deb`
 
 ## System Requirements for Building
 
 ### All Platforms
-- Node.js v14 or later
-- Rust (latest stable version)
+- Node.js v20 or later
+- npm or yarn
 
-### Linux
-Required system packages:
-```bash
-sudo apt-get install -y \
-  libgtk-3-dev \
-  libwebkit2gtk-4.1-dev \
-  libayatana-appindicator3-dev \
-  librsvg2-dev
-```
-
-### macOS
-Requires Xcode Command Line Tools
-
-### Windows
-Requires WebView2 runtime (usually pre-installed on Windows 10/11)
+### No Additional Requirements
+Electron bundles everything needed, including:
+- The Chromium rendering engine
+- Node.js runtime
+- The React application and all dependencies
 
 ## Key Changes Made
 
-1. **Tauri Integration**: Added Tauri configuration and build scripts
-2. **React Bundling**: Removed CDN imports to bundle React for offline use
-3. **Configuration**: Proper app metadata, window settings, and bundle configuration
-4. **Documentation**: Updated README with comprehensive build instructions
+1. **Electron Integration**: Added Electron as the desktop framework
+2. **React Bundling**: Configured Vite to bundle React for offline use with proper base path
+3. **Electron Builder Configuration**: Set up electron-builder for cross-platform packaging
+4. **Main Process**: Created Electron main process with proper window management
+5. **GitHub Actions**: Added automated release workflow for all platforms
+6. **Documentation**: Updated README with comprehensive build and release instructions
 
 ## Security Considerations
 
 - All data remains stored locally on the user's filesystem
 - No external network requests (except for the optional Gemini API if configured)
-- Application runs in a sandboxed Tauri environment with controlled permissions
+- Application runs with proper security settings (contextIsolation, sandbox enabled)
+- Updated to Electron 35.7.5+ to avoid known vulnerabilities
 
 ## Performance
 
-The standalone executable is approximately 9.1 MB, which includes:
-- The Rust runtime
-- WebView2/WebKit rendering engine bindings
-- The bundled React application
-- All JavaScript dependencies
+Electron applications are larger than Tauri applications because they bundle Chromium:
+- Windows installer: ~100-150 MB
+- macOS DMG: ~150-200 MB
+- Linux AppImage: ~150-200 MB
 
-Package installers (.deb/.rpm) are smaller (2.9 MB) as they leverage system libraries.
+However, Electron provides:
+- Consistent rendering across all platforms
+- Easier cross-platform development
+- No system dependencies required
+- Wide compatibility
+
+## Automated Releases
+
+GitHub Actions workflow automatically builds and publishes releases when a tag is pushed:
+
+```bash
+git tag v1.0.0
+git push origin v1.0.0
+```
+
+This creates a GitHub release with installers for Windows, macOS, and Linux.
