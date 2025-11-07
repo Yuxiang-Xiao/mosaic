@@ -1,0 +1,5 @@
+{
+  "name": "Mosaic",
+  "description": "A personal tracking application that uses a heatmap to visualize your progress and consistency. All data is stored locally in your browser.",
+  "requestFramePermissions": []
+}
