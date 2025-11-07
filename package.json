@@ -2,6 +2,11 @@
   "name": "mosaic",
   "private": true,
   "version": "0.0.0",
+  "description": "A personal tracking application that uses a heatmap to visualize your progress and consistency",
+  "author": {
+    "name": "Yuxiang Xiao",
+    "email": "mosaic@example.com"
+  },
   "type": "module",
   "main": "dist-electron/main.js",
   "scripts": {
