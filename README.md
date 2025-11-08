@@ -4,13 +4,44 @@ A personal tracking application that uses a heatmap to visualize your progress a
 
 ## Features
 
-- 📊 Visual heatmap tracking for habits and goals
-- 🌙 Dark/Light mode support
-- 📱 Responsive design for desktop and mobile
-- 💾 Local data storage with import/export functionality
-- 🏷️ Multi-language support
-- 🖼️ Custom window controls (minimize, maximize, close)
-- 📅 Monthly and yearly view modes
+### 📊 Habit Tracking
+- Visual heatmap tracking for habits and goals
+- Daily check-in functionality with optional notes
+- Monthly and yearly view modes for different perspectives
+- Color-coded intensity based on consistency
+- Click on any day to view or edit check-in details
+- Archive habits you're not actively tracking
+- Progress statistics showing completion rates
+
+### 🎨 User Interface
+- Clean, minimalist design focused on functionality
+- Dark/Light mode support with smooth transitions
+- Responsive design for desktop and mobile devices
+- Custom window controls (minimize, maximize, close) in desktop app
+- Hidden scrollbars for cleaner interface
+- Intuitive sidebar navigation
+- Collapsible sidebar for more content space
+
+### 💾 Data Management
+- Local data storage using browser localStorage
+- Import/export functionality for data backup and migration
+- JSON format for easy data manipulation
+- No cloud dependencies - your data stays on your device
+- Automatic data migration between app versions
+
+### 🌍 Accessibility & Localization
+- Multi-language support (English and more)
+- High contrast mode support
+- Keyboard navigation support
+- Screen reader compatible structure
+- Semantic HTML structure
+
+### 🔧 Technical Features
+- Built with React and TypeScript for reliability
+- Electron desktop application with native feel
+- Vite for fast development and optimized builds
+- Tailwind CSS for consistent styling
+- Custom SVG icons and graphics
 
 ## Desktop Application
 
