@@ -68,26 +68,89 @@ const TrashIcon: React.FC<{ className?: string }> = ({ className }) => (
     </svg>
 );
 
-const WindowControls: React.FC = () => (
-    <div className="flex items-center gap-3" style={{ WebkitAppRegion: 'no-drag' } as React.CSSProperties}>
-        <button aria-label="Minimize" className="p-1 text-text-secondary/70 hover:text-text-primary dark:hover:text-text-primary-dark transition-colors cursor-default">
-            <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <line x1="5" y1="12" x2="19" y2="12"></line>
-            </svg>
-        </button>
-        <button aria-label="Maximize" className="p-1 text-text-secondary/70 hover:text-text-primary dark:hover:text-text-primary-dark transition-colors cursor-default">
-             <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <rect x="6" y="6" width="12" height="12" rx="1"></rect>
-            </svg>
-        </button>
-        <button aria-label="Close" className="p-1 text-text-secondary/70 hover:text-red-500 transition-colors cursor-default">
-             <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <line x1="18" y1="6" x2="6" y2="18"></line>
-                <line x1="6" y1="6" x2="18" y2="18"></line>
-            </svg>
-        </button>
-    </div>
-);
+const WindowControls: React.FC = () => {
+    const [isMaximized, setIsMaximized] = React.useState(false);
+
+    React.useEffect(() => {
+        // 检查窗口状态
+        const checkWindowState = async () => {
+            if (window.electronAPI) {
+                const maximized = await window.electronAPI.isMaximized();
+                setIsMaximized(maximized);
+            }
+        };
+
+        checkWindowState();
+
+        // 定期检查窗口状态（可选）
+        const interval = setInterval(checkWindowState, 1000);
+        return () => clearInterval(interval);
+    }, []);
+
+    const handleMinimize = async () => {
+        if (window.electronAPI) {
+            await window.electronAPI.minimizeWindow();
+        }
+    };
+
+    const handleMaximize = async () => {
+        if (window.electronAPI) {
+            const maximized = await window.electronAPI.maximizeWindow();
+            setIsMaximized(maximized);
+        }
+    };
+
+    const handleClose = async () => {
+        if (window.electronAPI) {
+            await window.electronAPI.closeWindow();
+        }
+    };
+
+    // 只在Electron环境中显示
+    if (!window.electronAPI) {
+        return null;
+    }
+
+    return (
+        <div className="flex items-center gap-3" style={{ WebkitAppRegion: 'no-drag' } as React.CSSProperties}>
+            <button
+                aria-label="Minimize"
+                className="p-1 text-text-secondary/70 hover:text-text-primary dark:hover:text-text-primary-dark transition-colors cursor-default"
+                onClick={handleMinimize}
+            >
+                <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <line x1="5" y1="12" x2="19" y2="12"></line>
+                </svg>
+            </button>
+            <button
+                aria-label="Maximize"
+                className="p-1 text-text-secondary/70 hover:text-text-primary dark:hover:text-text-primary-dark transition-colors cursor-default"
+                onClick={handleMaximize}
+            >
+                {isMaximized ? (
+                    <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                        <rect x="6" y="6" width="12" height="12" rx="1"></rect>
+                        <rect x="8" y="8" width="8" height="8" rx="1"></rect>
+                    </svg>
+                ) : (
+                    <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                        <rect x="6" y="6" width="12" height="12" rx="1"></rect>
+                    </svg>
+                )}
+            </button>
+            <button
+                aria-label="Close"
+                className="p-1 text-text-secondary/70 hover:text-red-500 transition-colors cursor-default"
+                onClick={handleClose}
+            >
+                <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <line x1="18" y1="6" x2="6" y2="18"></line>
+                    <line x1="6" y1="6" x2="18" y2="18"></line>
+                </svg>
+            </button>
+        </div>
+    );
+};
 
 
 const ArchivedThingsModal: React.FC<{

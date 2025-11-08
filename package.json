@@ -1,7 +1,7 @@
 {
   "name": "mosaic",
   "private": true,
-  "version": "0.0.0",
+  "version": "1.0.2",
   "description": "A personal tracking application that uses a heatmap to visualize your progress and consistency",
   "author": {
     "name": "Yuxiang Xiao",
