@@ -1,6 +1,8 @@
 # Mosaic
 
 A personal tracking application that uses a heatmap to visualize your progress and consistency. All data is stored locally.
+<img src="pic/view.png" alt="View" width="70%"/>
+
 
 ## Features
 
